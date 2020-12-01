@@ -1,0 +1,80 @@
+@import 'config';
+@import 'utilities';
+
+.form-wrapper {
+  width: 500px;
+  background-color: $primary-color;
+  border: 10px solid $border-color;
+  padding: 30px 30px;
+  border-radius: 14px;
+}
+
+input {
+  border: 5px solid $border-color !important;
+  background-color: transparent !important;
+}
+
+.form-button {
+  @include flex(space-between, center, row);
+
+  .btn {
+    background-color: #203864;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}
+
+.title {
+  margin-bottom: 50px;
+
+  .form-logo {
+    width: 420px;
+  }
+
+  h1 {
+    @extend %title;
+    font-size: 60px;
+  }
+}
+
+.footer {
+  margin-top: 40px;
+
+  h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #fff;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    text-align: center;
+  }
+
+  .footer h2 {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .form-wrapper {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .title {
+    .form-logo {
+      width: 280px;
+    }
+
+    h1 {
+      font-size: 40px;
+    }
+  }
+
+  .footer h2 {
+    font-size: 18px;
+  }
+}
