@@ -22,7 +22,7 @@ exports.connectWithMongodb = (callback) => {
     .catch((error) => {
       logger.error({
         label: 'connectWithMongodb',
-        message: error.trace,
+        message: error,
       });
     });
 };

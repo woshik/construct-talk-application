@@ -1,4 +1,4 @@
-module.exports = (req) => {
+module.exports = (req, res, next) => {
   let params;
 
   switch (req.method) {
@@ -17,5 +17,7 @@ module.exports = (req) => {
       break;
   }
 
-  return params;
+  res.validData = params;
+
+  next();
 };

@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const logger = require('./utils/serverErrorLogger');
-const { connectWithMongodb } = require('./database/connection');
+// const { connectWithMongodb } = require('./database/connection');
 
 const server = express();
 
@@ -60,8 +60,8 @@ server.use((error, req, res) => {
   });
 });
 
-connectWithMongodb(() => {
-  logger.info('database connected');
-});
+// connectWithMongodb(() => {
+//   logger.info('database connected');
+// });
 
 module.exports = server;
