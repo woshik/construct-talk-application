@@ -1,7 +1,3 @@
-const login = (req, res) => {
-  console.log(req, res);
-};
-
-module.exports = {
-  login,
+exports.login = () => {
+  console.log("I'm login");
 };

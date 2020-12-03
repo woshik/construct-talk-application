@@ -31,14 +31,12 @@ process.on('unhandledRejection', (error) => {
 server
   // enable cors for server, Access-Control-Allow-Origin: *
   .use(cors())
-  // secure the server with HTTP headers
+  // secure the server with headers
   .use(helmet())
   .use(express.json())
-  .use(
-    express.urlencoded({
-      extended: true,
-    }),
-  );
+  .use(express.urlencoded({
+    extended: true,
+  }));
 
 // api route mapping
 server.use(
@@ -49,7 +47,6 @@ server.use(
 // 404 api not found route
 server.use((req, res) => {
   res.status(404).json({
-    status: 404,
     message: 'route not found',
   });
 });
@@ -59,7 +56,6 @@ server.use((error, req, res) => {
   logger.error({ label: 'server error', message: error.stack });
 
   res.status(500).json({
-    status: 500,
     message: 'Server Error, Please try again later',
   });
 });

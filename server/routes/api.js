@@ -1,9 +1,11 @@
+const validation = require('../validation/index');
+
 module.exports = {
   login: {
-    url: '/auth',
+    url: '/auth/login',
     method: 'post',
     controller: 'auth',
     function: 'login',
-    middleware: [],
+    middleware: [validation.login],
   },
 };
