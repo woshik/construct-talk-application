@@ -9,7 +9,7 @@ exports.connectWithMongodb = (callback) => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     connectTimeoutMS: 60000,
-    // tls: true,
+    tls: process.env.NODE_ENV === 'production',
     poolSize: 100,
   })
     .then((client) => {
