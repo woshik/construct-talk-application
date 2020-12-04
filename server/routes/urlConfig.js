@@ -5,6 +5,7 @@
 const express = require('express');
 const { resolve } = require('path');
 const { asyncController } = require('../utils/async');
+const { getParamsFromRoute, checkValidation } = require('../middleware/index');
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ module.exports = (api, appDIR) => {
     // console.log(routeInfo.url, routeInfo.middleware ?? [], require(resolve(`${appDIR}/app/controller/${routeInfo.path ?? ''}/${routeInfo.controller}`))[routeInfo.function] )
     router[routeInfo.method](
       routeInfo.url,
-      routeInfo.middleware ?? [],
+      [getParamsFromRoute, ...routeInfo.middleware, checkValidation],
       asyncController(require(resolve(`${appDIR}/app/controller/${routeInfo.path ?? ''}/${routeInfo.controller}`))[routeInfo.function]),
     );
   });

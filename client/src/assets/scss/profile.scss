@@ -1,0 +1,51 @@
+@import "private-page-common";
+
+.profile-image {
+    height: 215px;
+    overflow: hidden;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+}
+
+.content {
+	padding: 0 !important
+}
+
+.company-label {
+	background-color: #203864;
+    color: #000;
+    padding: 10px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.more-options a{
+	text-decoration: none;
+	color: #000
+}
+
+.rabon {
+	height: 15px;
+	border: 2px solid #000;
+	border-left: 0;
+	border-right: 0;
+	background: rgb(11, 10, 88);
+}
+
+.comment-block .card {
+	background-color: transparent;
+	border: transparent;
+
+	.profile-image {
+		width: 65px;
+		height: 65px;
+		margin-right: 20px
+	}
+
+	.card-body {
+		padding: 0;
+		margin: 0;
+	}
+}

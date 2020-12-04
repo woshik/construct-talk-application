@@ -9,9 +9,10 @@
   border-radius: 14px;
 }
 
-input {
+input, select, option {
   border: 5px solid $border-color !important;
   background-color: transparent !important;
+  height: 40px !important;
 }
 
 .form-button {
@@ -28,7 +29,6 @@ input {
 .title {
   margin-bottom: 50px;
   text-align: center;
-
   .form-logo {
     width: 420px;
   }

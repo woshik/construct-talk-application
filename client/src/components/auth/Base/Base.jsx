@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import logo from '../../../assets/image/logo-circle.png';
@@ -7,9 +8,9 @@ import './base.scss';
 const Base = ({ children }) => (
   <div>
     <header>
-      <div className="logo">
+      <Link to="/" className="logo">
         <img src={logo} alt="logo" />
-      </div>
+      </Link>
     </header>
     <div className="container">{children}</div>
   </div>

@@ -1,6 +1,6 @@
 exports.asyncController = (handler) => async (req, res, next) => {
   try {
-    await handler(req, res);
+    await handler(req, res, next);
   } catch (error) {
     next(error);
   }
@@ -9,7 +9,7 @@ exports.asyncController = (handler) => async (req, res, next) => {
 exports.asyncFunction = (handler) => async (...args) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    await handler(...args);
+    return await handler(...args);
   } catch (error) {
     throw error;
   }

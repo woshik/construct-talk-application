@@ -82,7 +82,7 @@ export const userRegistration = (userData) => {
   return (dispatch) => {
     dispatch(requestSent());
     axiosInstance
-      .post('register', userData)
+      .post('registration', userData)
       .then(() => {
         dispatch(success());
       })

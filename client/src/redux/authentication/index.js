@@ -7,7 +7,7 @@ const LOGIN_FAILURE = 'LOGIN_FAILURE';
 const LOGOUT = 'LOGOUT';
 const CLEAR_ERROR = 'CLEAR_ERROR';
 
-let userData = localStorage.getItem('user');
+let userData = localStorage.getItem('userData');
 
 userData = userData ? JSON.parse(userData) : null;
 
@@ -32,7 +32,7 @@ const authenticationReducer = (state = initialState, { type, payload }) => {
         loader: false,
       };
     case LOGIN_SUCCESS:
-      localStorage.setItem('user', JSON.stringify(payload));
+      localStorage.setItem('userData', JSON.stringify(payload));
 
       return {
         ...state,
@@ -46,7 +46,7 @@ const authenticationReducer = (state = initialState, { type, payload }) => {
         error: payload?.error,
       };
     case LOGOUT:
-      localStorage.removeItem('user');
+      localStorage.removeItem('userData');
       return {
         ...state,
         isAuthenticated: false,

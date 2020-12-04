@@ -2,6 +2,7 @@
 
 .logo {
   padding: 20px;
+  display: block;
 
   img {
     width: 100px;
@@ -9,7 +10,8 @@
 }
 
 .container {
-  margin-top: 65px;
-  padding-bottom: 50px;
+  margin-top: 15px;
+  padding-bottom: 80px;
   @include flex();
 }
+

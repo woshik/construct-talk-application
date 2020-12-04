@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
       break;
   }
 
-  res.validData = params;
+  req.routeData = params;
 
   next();
 };

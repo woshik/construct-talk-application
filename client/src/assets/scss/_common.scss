@@ -35,3 +35,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+label {
+  width: 100%;
+}
+
+.error-message, .success-message {
+  background: #d9534f;
+  color: white;
+  padding: 14px;
+  text-align: center;
+  font-weight: bolder;
+  border-radius: 14px;
+}
+
+.success-message {
+  background-color: #5cb85c !important; 
+}
+
+.error {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 8px;
+  margin-top: 2px;
+  color: red;
+}
