@@ -1,15 +1,16 @@
-require('dotenv').config({
-  path: './server/.env',
-  debug: process.env.DEBUG
-});
-
 const cluster = require('cluster');
 const http = require('http');
 const server = require('./server/index');
 
 // clustering only apply on production server
-if (cluster.isMaster && process.env.NODE_ENV === 'production') {
-  let cpu_num = require('os').cpus().length;
+if (cluster.isMaster) {
+  require('dotenv').config({
+    path: './server/.env',
+    debug: process.env.NODE_ENV !== 'production',
+  });
+
+  let cpu_num = process.env.NODE_ENV === 'production' ? require('os').cpus().length : 1;
+  
   for (let i = 0; i < cpu_num; i++) {
     cluster.fork();
   }
@@ -20,9 +21,7 @@ if (cluster.isMaster && process.env.NODE_ENV === 'production') {
   });
 } else {
   // http server start running
-  const {
-    PORT = 5000
-  } = process.env
+  const { PORT = 5000 } = process.env;
 
   http
     .createServer(server)

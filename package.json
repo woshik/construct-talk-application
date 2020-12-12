@@ -5,9 +5,9 @@
   "main": "client.js",
   "scripts": {
     "start": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
-    "dev-server": "DEBUG=true nodemon server.js",
+    "dev-server": "nodemon server.js",
     "dev-client": "node client.js",
-    "server": "NODE_ENV=production node server.js"
+    "server": "node server.js"
   },
   "keywords": [],
   "author": "",
