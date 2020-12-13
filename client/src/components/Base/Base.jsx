@@ -50,7 +50,7 @@ const Base = ({ pageTitle, children }) => (
           </div>
         </div>
       </div>
-      <div className="col-8 content">{children}</div>
+      <div className="col-8">{children}</div>
       <div className="col-2 d-flex flex-column align-items-center">
         <div className="row mb-5">
           <Logo />

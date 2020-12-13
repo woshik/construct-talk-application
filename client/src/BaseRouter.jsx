@@ -20,7 +20,7 @@ export default function BaseRouter() {
           <Route path="/profile" component={ProfilePage} />
           <Route path="/search" component={SearchPage} />
           <Route path="/setting" component={SettingPage} />
-          <Route path="/" component={HomePage} />
+          <Route exact path="/" component={HomePage} />
           <Redirect to="/" />
         </Switch>
       ) : (

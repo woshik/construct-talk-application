@@ -57,13 +57,6 @@ if (process.env.NODE_ENV === 'production') {
   server.get('*', (req, res) => {
     res.sendFile(resolve(__dirname, '../client/build/index.html'));
   });
-} else {
-  // 404 api not found route
-  server.use((req, res) => {
-    res.status(404).json({
-      message: 'route not found',
-    });
-  });
 }
 
 // 500 error handling

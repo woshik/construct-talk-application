@@ -1,4 +1,6 @@
 const validation = require('../validation/index');
+const singleFileUpload = require('../middleware/singleFileUpload');
+const authTokenValidation = require('../middleware/authTokenValidation');
 
 module.exports = {
   login: {
@@ -14,5 +16,12 @@ module.exports = {
     controller: 'auth',
     function: 'registration',
     middleware: [validation.registration],
+  },
+  post: {
+    url: '/post',
+    method: 'post',
+    controller: 'post',
+    function: 'createPost',
+    middleware: [authTokenValidation, singleFileUpload('image'), validation.createPost],
   },
 };
