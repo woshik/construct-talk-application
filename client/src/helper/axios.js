@@ -4,7 +4,8 @@ const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_BASE_URL}/api/v1/`,
 });
 
-const userData = JSON.parse(localStorage.getItem('userData') ?? '');
+let userData = localStorage.getItem('userData');
+userData = userData ? JSON.parse(userData) : userData;
 
 if (userData) {
   axiosInstance.defaults.headers.common['X-Auth-Token'] = userData.token;
