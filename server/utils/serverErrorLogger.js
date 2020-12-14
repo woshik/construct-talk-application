@@ -21,18 +21,16 @@ const logger = createLogger({
 });
 
 // console.log error only development
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new transports.Console({
-      format: format.combine(
-        format.timestamp(),
-        format.colorize(),
-        format.printf(
-          (info) => `${info.timestamp} ${info.level}: ${info.message}`,
-        ),
+logger.add(
+  new transports.Console({
+    format: format.combine(
+      format.timestamp(),
+      format.colorize(),
+      format.printf(
+        (info) => `${info.timestamp} ${info.level}: ${info.message}`,
       ),
-    }),
-  );
-}
+    ),
+  }),
+);
 
 module.exports = logger;

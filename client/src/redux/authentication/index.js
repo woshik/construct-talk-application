@@ -33,12 +33,12 @@ const authenticationReducer = (state = initialState, { type, payload }) => {
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('userData', JSON.stringify(payload));
-
+      axiosInstance.defaults.headers.common['X-Auth-Token'] = payload?.token;
       return {
         ...state,
         isAuthenticated: true,
         token: payload?.token,
-        user: payload?.user,
+        user: payload?.userData,
       };
     case LOGIN_FAILURE:
       return {
