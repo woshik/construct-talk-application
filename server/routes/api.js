@@ -17,6 +17,13 @@ module.exports = {
     function: 'registration',
     middleware: [validation.registration],
   },
+  getPost: {
+    url: '/post',
+    method: 'get',
+    controller: 'post',
+    function: 'getPost',
+    middleware: [authTokenValidation],
+  },
   post: {
     url: '/post',
     method: 'post',

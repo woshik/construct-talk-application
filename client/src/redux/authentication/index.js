@@ -14,7 +14,7 @@ userData = userData ? JSON.parse(userData) : null;
 const initialState = {
   token: userData?.token,
   isAuthenticated: !!userData,
-  user: userData?.user,
+  user: userData?.userData,
   loader: false,
   error: null,
 };

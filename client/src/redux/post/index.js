@@ -2,15 +2,19 @@ import axiosInstance from '../../helper/axios';
 
 const POST_REQUEST_SENT = 'POST_REQUEST_SENT';
 const POST_REQUEST_COMPLETE = 'POST_REQUEST_COMPLETE';
+const FETCH_POST_DATA = 'FETCH_POST_DATA';
+const UPDATE_PAGE = 'UPDATE_PAGE';
 const POST_SUCCESS = 'POST_SUCCESS';
 const POST_FAILURE = 'POST_FAILURE';
 const CLEAR_ERROR = 'CLEAR_ERROR';
 const CLEAR_ALL = 'CLEAR_ALL';
 
 const initialState = {
+  posts: [],
   success: false,
   loader: false,
   error: null,
+  startIndex: 0,
 };
 
 const POSTReducer = (state = initialState, { type, payload }) => {
@@ -37,6 +41,16 @@ const POSTReducer = (state = initialState, { type, payload }) => {
         success: false,
         error: payload?.error,
       };
+    case FETCH_POST_DATA:
+      return {
+        ...state,
+        posts: [...state.posts, ...payload.postList],
+      };
+    case UPDATE_PAGE:
+      return {
+        ...state,
+        startIndex: state.startIndex + payload.index,
+      };
     case CLEAR_ERROR:
       return {
         ...state,
@@ -44,12 +58,15 @@ const POSTReducer = (state = initialState, { type, payload }) => {
       };
     case CLEAR_ALL:
       return {
+        ...state,
         success: false,
         loader: false,
         error: null,
       };
     default:
-      return state;
+      return {
+        ...state,
+      };
   }
 };
 
@@ -80,7 +97,6 @@ export const createPost = (userData) => {
   }
 
   return (dispatch) => {
-    console.log(userData);
     dispatch(requestSent());
     axiosInstance
       .post('post', userData, {
@@ -98,6 +114,39 @@ export const createPost = (userData) => {
         dispatch(requestComplete());
       });
   };
+};
+
+export const fetchPostData = () => (dispatch, getState) => {
+  const { post } = getState();
+
+  function completeFetch(postList) {
+    return {
+      type: FETCH_POST_DATA,
+      payload: {
+        postList,
+      },
+    };
+  }
+
+  function updatePage(index) {
+    return {
+      type: UPDATE_PAGE,
+      payload: { index },
+    };
+  }
+
+  axiosInstance
+    .get('post', {
+      params: {
+        start: post.startIndex,
+      },
+    })
+    .then(({ data }) => {
+      const posts = data?.postList ?? [];
+      dispatch(completeFetch(posts));
+      dispatch(updatePage(posts.length));
+    })
+    .catch((error) => console.log(error));
 };
 
 export const clearError = () => ({

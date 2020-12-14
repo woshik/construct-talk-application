@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 const uuid = require('uuid').v4;
-const { insertPost } = require('../model/post');
+const { insertPost, getPost } = require('../model/post');
 const s3 = require('../../utils/s3');
 
 exports.createPost = async (req, res, next) => {
@@ -37,5 +37,28 @@ exports.createPost = async (req, res, next) => {
         next();
       }
     });
+  } else {
+    const postData = {
+      user_id: req.user.id,
+      post: req.body.post,
+      time: new Date(),
+    };
+
+    const inserted = await insertPost(postData);
+
+    if (inserted) {
+      res.json({ success: true });
+    } else {
+      next();
+    }
   }
+};
+
+exports.getPost = async (req, res) => {
+  const postList = await getPost({
+    user_id: req.user.id,
+    start: parseInt(req.query.start, 10),
+  });
+
+  res.json({ postList });
 };
