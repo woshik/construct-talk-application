@@ -1,0 +1,1 @@
+{"version":3,"sources":["pages/Search.jsx"],"names":["Search"],"mappings":"0HAIeA,UAFA,kBAAO","file":"static/js/10.58da48e0.chunk.js","sourcesContent":["import React from 'react';\n\nconst Search = () => (<div>Hello</div>);\n\nexport default Search;\n"],"sourceRoot":""}
