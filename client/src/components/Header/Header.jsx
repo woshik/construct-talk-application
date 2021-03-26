@@ -1,24 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faSearch, faBell, faHome, faUser, faCogs, faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
+import logo from '../../assets/image/logo-circle.png';
 
-const Header = ({ pageTitle, companyName }) => (
-  <header className="row">
-    <div className="col-2">
-      <h4 className="text-center">{pageTitle}</h4>
+const Header = () => (
+  <nav className="custom-navbar">
+    <div className="container d-flex justify-content-center align-items-center">
+      <Link to="/" className="navbar-brand logo"><img src={logo} alt="logo" width="75px" /></Link>
+      <div className="nav-contetent">
+        <form className="navbar-form form-inline">
+          <div className="input-group search-box">
+            <input type="text" id="topsearch" className="form-control" placeholder="Search here..." />
+            <span className="input-group-addon"><FontAwesomeIcon icon={faSearch} /></span>
+          </div>
+        </form>
+        <div className="items">
+          <Link to="/notification"><FontAwesomeIcon icon={faBell} /></Link>
+          <Link to="/setting"><FontAwesomeIcon icon={faCogs} /></Link>
+          <Link to="/"><FontAwesomeIcon icon={faHome} /></Link>
+          <Link to="/profile"><FontAwesomeIcon icon={faUser} /></Link>
+          <Link to="/profile"><FontAwesomeIcon icon={faSignOutAlt} className="last" /></Link>
+        </div>
+      </div>
+      <div className="clearfix" />
     </div>
-    <div className="col-8">
-      <h1 className="title">{companyName}</h1>
-    </div>
-  </header>
+  </nav>
 );
-
-Header.defaultProps = {
-  companyName: 'ConstructTalk',
-};
-
-Header.propTypes = {
-  pageTitle: PropTypes.string.isRequired,
-  companyName: PropTypes.string,
-};
 
 export default Header;

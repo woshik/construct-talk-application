@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { userRegistration, clearError } from '../../../redux/registration';
 import { registration } from '../../../validation/auth';
+import backGroundImage from '../../../assets/image/bg.png';
 import countryList from '../../../assets/data/country';
-import specialty from '../../../assets/data/specialty';
-import logo from '../../../assets/image/logo.png';
-import './RegistrationForm.scss';
+import specialties from '../../../assets/data/specialty';
 
 const initialValues = {
   firstName: '',
@@ -21,7 +20,6 @@ const initialValues = {
   state: '',
   city: '',
   specialty: '',
-  otherSpecialty: '',
 };
 
 let setTimeOut = null;
@@ -29,6 +27,9 @@ let setTimeOut = null;
 const RegistrationForm = () => {
   const regState = useSelector(({ reg }) => reg);
   const dispatch = useDispatch();
+
+  const [countryDropDown, setCountryDropDown] = useState(false);
+  const [specialityDropDown, setSpecialityDropDown] = useState(false);
 
   useEffect(() => {
     clearTimeout(setTimeOut);
@@ -48,160 +49,144 @@ const RegistrationForm = () => {
     onSubmit: (values) => dispatch(userRegistration(values)),
   });
 
+  const handleSpecialityData = (specialit) => {
+    formik.setFieldValue('specialty', specialit);
+    setSpecialityDropDown(false);
+  };
+
+  const handleCountryData = (countryName) => {
+    formik.setFieldValue('country', countryName);
+    setCountryDropDown(false);
+  };
+
   return regState.registered ? (
     <Redirect to="/login" />
   ) : (
-    <>
-      <div className="title">
-        <h1>
-          Welcome
-          <br />
-          to
-        </h1>
-        <img className="form-logo" src={logo} alt="logo" />
-      </div>
+    <div className="container register-container">
+      <div className="row mt-5">
+        <div className="col-lg-6 col-md-12 col-sm-12 col-12">
+          <h3 className="register-header">Welcome To Construct Talk</h3>
+          <div className="reg-from-wrapper">
+            {regState.error ? (
+              <div className="error-message mt-4 mb-2">{regState.error}</div>
+            ) : null}
+            <form method="POST" onSubmit={formik.handleSubmit}>
 
-      <div className="form-wrapper">
-        {regState.error ? (
-          <div className="error-message mb-4">{regState.error}</div>
-        ) : null}
+              <div className="d-flex flex-row mt-3 form-half">
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control custom-form-control-short"
+                    name="firstName"
+                    id="firstName"
+                    autoComplete="off"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.firstName}
+                    required
+                    placeholder="First Name"
+                  />
+                  {formik.touched.firstName && formik.errors.firstName ? (
+                    <p className="error">{formik.errors.firstName}</p>
+                  ) : null}
+                </div>
+                <div className="form-group" style={{ marginLeft: '1%' }}>
+                  <input
+                    type="text"
+                    className="form-control custom-form-control-short"
+                    name="lastName"
+                    id="lastName"
+                    autoComplete="off"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.lastName}
+                    required
+                    placeholder="Last Name"
+                  />
+                  {formik.touched.lastName && formik.errors.lastName ? (
+                    <p className="error">{formik.errors.lastName}</p>
+                  ) : null}
+                </div>
+              </div>
 
-        <form method="POST" onSubmit={formik.handleSubmit}>
-          <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="firstName">
-                First Name
-                <input
-                  type="text"
-                  className="form-control"
-                  name="firstName"
-                  id="firstName"
-                  autoComplete="off"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.firstName}
-                  required
-                />
-                {formik.touched.firstName && formik.errors.firstName ? (
-                  <p className="error">{formik.errors.firstName}</p>
-                ) : null}
-              </label>
-            </div>
-
-            <div className="form-group col-md-6">
-              <label htmlFor="lastName">
-                Last Name
-                <input
-                  type="text"
-                  className="form-control"
-                  name="lastName"
-                  id="lastName"
-                  autoComplete="off"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.lastName}
-                  required
-                />
-                {formik.touched.lastName && formik.errors.lastName ? (
-                  <p className="error">{formik.errors.lastName}</p>
-                ) : null}
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-md-12">
-              <label htmlFor="email">
-                Email
+              <div className="form-group mt-3">
                 <input
                   type="email"
-                  className="form-control"
+                  className="form-control custom-form-control"
                   name="email"
                   id="email"
                   autoComplete="off"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.email}
+                  placeholder="Email"
                   required
                 />
                 {formik.touched.email && formik.errors.email ? (
                   <p className="error">{formik.errors.email}</p>
                 ) : null}
-              </label>
-            </div>
-          </div>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="password">
-                Password
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  id="password"
-                  autoComplete="off"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  required
-                />
-                {formik.touched.password && formik.errors.password ? (
-                  <p className="error">{formik.errors.password}</p>
-                ) : null}
-              </label>
-            </div>
-            <div className="form-group col-md-6">
-              <label htmlFor="confirmPassword">
-                Confirm Password
-                <input
-                  type="password"
-                  className="form-control"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  autoComplete="off"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.confirmPassword}
-                  required
-                />
-                {formik.touched.confirmPassword
-                && formik.errors.confirmPassword ? (
-                  <p className="error">{formik.errors.confirmPassword}</p>
+              <div className="d-flex flex-row mt-3 form-half">
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    id="password"
+                    autoComplete="off"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                    placeholder="Password"
+                    required
+                  />
+                  {formik.touched.password && formik.errors.password ? (
+                    <p className="error">{formik.errors.password}</p>
                   ) : null}
-              </label>
-            </div>
-          </div>
+                </div>
+                <div className="form-group" style={{ marginLeft: '1%' }}>
+                  <input
+                    type="password"
+                    className="form-control"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    autoComplete="off"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.confirmPassword}
+                    placeholder="Confirm Password"
+                    required
+                  />
+                  {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+                    <p className="error">{formik.errors.confirmPassword}</p>
+                  ) : null}
+                </div>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group col-md-12">
-              <label htmlFor="dob">
-                Date of Birth
+              <div className="form-group mt-3">
                 <input
                   type="date"
-                  className="form-control"
+                  className="form-control custom-form-control"
                   name="dob"
                   id="dob"
                   autoComplete="off"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.dob}
+                  placeholder="Date of Birth"
                   required
                 />
                 {formik.touched.dob && formik.errors.dob ? (
                   <p className="error">{formik.errors.dob}</p>
                 ) : null}
-              </label>
-            </div>
-          </div>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group col-md-12">
-              <label htmlFor="companyName">
-                Company Name (if applicable)
+              <div className="form-group mt-3">
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control custom-form-control"
+                  placeholder="Company Name (Optional)"
                   name="companyName"
                   id="companyName"
                   autoComplete="off"
@@ -212,41 +197,42 @@ const RegistrationForm = () => {
                 {formik.touched.companyName && formik.errors.companyName ? (
                   <p className="error">{formik.errors.companyName}</p>
                 ) : null}
-              </label>
-            </div>
-          </div>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group col-md-12">
-              <label htmlFor="country">
-                Country
-                <select
-                  className="form-control"
-                  name="country"
-                  id="country"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  defaultValue={formik.values.country}
-                  required
+              <div className="dropdown mt-3">
+                <button
+                  className="btn register-dropdown dropdown-toggle"
+                  type="button"
+                  onClick={() => setCountryDropDown(true)}
                 >
-                  <option value="">Select Country</option>
+                  {formik.values.country ? formik.values.country : 'Country'}
+                </button>
+                <div
+                  className={countryDropDown ? 'show dropdown-menu' : 'dropdown-menu'}
+                  aria-labelledby="dropdownMenuButton"
+                  style={{
+                    height: '250px',
+                    overflow: 'scroll',
+                    overflowX: 'auto',
+                  }}
+                >
                   {countryList.map((country) => (
-                    <option value={country.code} key={country.code}>
+                    <span
+                      onClick={() => handleCountryData(country.name)}
+                      onKeyPress={() => handleCountryData(country.name)}
+                      key={country.code}
+                      tabIndex="-1"
+                      role="button"
+                      className="dropdown-item"
+                    >
                       {country.name}
-                    </option>
+                    </span>
                   ))}
-                </select>
-                {formik.touched.country && formik.errors.country ? (
-                  <p className="error">{formik.errors.country}</p>
-                ) : null}
-              </label>
-            </div>
-          </div>
 
-          <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="state">
-                State
+                </div>
+              </div>
+
+              <div className="form-group mt-3">
                 <input
                   type="text"
                   className="form-control"
@@ -256,17 +242,15 @@ const RegistrationForm = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.state}
+                  placeholder="State"
                   required
                 />
                 {formik.touched.state && formik.errors.state ? (
                   <p className="error">{formik.errors.state}</p>
                 ) : null}
-              </label>
-            </div>
+              </div>
 
-            <div className="form-group col-md-6">
-              <label htmlFor="city">
-                city
+              <div className="form-group mt-3">
                 <input
                   type="text"
                   className="form-control"
@@ -276,74 +260,63 @@ const RegistrationForm = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.city}
+                  placeholder="City"
                   required
                 />
                 {formik.touched.city && formik.errors.city ? (
                   <p className="error">{formik.errors.city}</p>
                 ) : null}
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-12">
-              <label htmlFor="specialty">
-                What&apos;s your specialty?
-                <select
-                  className="form-control"
-                  name="specialty"
-                  id="specialty"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  defaultValue={formik.values.specialty}
-                >
-                  <option value="">Select Specialty</option>
-                  {specialty.map((item) => (
-                    <option value={item.name} key={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-                {formik.touched.specialty && formik.errors.specialty ? (
-                  <p className="error">{formik.errors.specialty}</p>
-                ) : null}
-              </label>
-            </div>
-          </div>
-
-          {formik.values.specialty === 'Other' ? (
-            <div className="form-row">
-              <div className="form-group col-12">
-                <label htmlFor="otherSpecialty">
-                  Other Specialty
-                  <input
-                    className="form-control"
-                    name="otherSpecialty"
-                    id="otherSpecialty"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    defaultValue={formik.values.otherSpecialty}
-                  />
-                  {formik.touched.otherSpecialty
-                  && formik.errors.otherSpecialty ? (
-                    <p className="error">{formik.errors.otherSpecialty}</p>
-                    ) : null}
-                </label>
               </div>
-            </div>
-          ) : null}
 
-          <div className="form-button">
-            <button type="submit" className="btn">
-              Sign me up
-            </button>
-            <Link to="/login" className="btn">
-              Back To Login
-            </Link>
+              <div className="dropdown mt-3">
+                <button
+                  className="btn register-dropdown dropdown-toggle"
+                  type="button"
+                  onClick={() => setSpecialityDropDown(true)}
+                >
+                  {formik.values.specialty ? formik.values.specialty : 'Specialty'}
+                </button>
+                <div
+                  className={specialityDropDown ? 'show dropdown-menu' : 'dropdown-menu'}
+                  style={{
+                    height: '250px',
+                    overflow: 'scroll',
+                    overflowX: 'auto',
+                  }}
+                >
+                  {specialties.map((specialty) => (
+                    <span
+                      onClick={() => handleSpecialityData(specialty.name)}
+                      onKeyPress={() => handleSpecialityData(specialty.name)}
+                      key={specialty.id}
+                      tabIndex="-1"
+                      role="button"
+                      className="dropdown-item"
+                    >
+                      {specialty.name}
+                    </span>
+                  ))}
+
+                </div>
+              </div>
+
+              <div className="submit-reg text-center">
+                <button type="submit" className="btn btn-register mt-5">Register</button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+        <div
+          className="col-lg-6 col-md-12 col-sm-12 col-12 login-section "
+          style={{ textAlign: 'right' }}
+        >
+          <Link to="/login" className="btn btn-success btn-login">Login</Link>
+          <div>
+            <img src={backGroundImage} alt="background" className="img-fluid" />
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

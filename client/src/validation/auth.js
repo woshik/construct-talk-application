@@ -23,8 +23,4 @@ export const registration = Yup.object({
   state: Yup.string().required(),
   city: Yup.string().required(),
   specialty: Yup.string().required(),
-  otherSpecialty: Yup.string().when('specialty', {
-    is: 'Other',
-    then: Yup.string().required('Specialty is required'),
-  }),
 });
